@@ -1,116 +1,230 @@
+
 Load "guilib.ring"
 Load "gamelib.ring"
 
+
+
 lst=[]
+
 btns=[]
+
 isXTurn=true
 
-	app=new qApp
-	{
-		frmMain=new qMainWindow()
-		{
-			setWindowTitle("Hello world")
-			resize(300,320)
-			move(200,200)
-			//buttons
-			pos=0
-			for y=0 to 2
-				for x=0 to 2
-					pos++
-					Add(lst,0)
-					Add(btns,new qPushButton(frmMain)
-					{
-						setGeometry(x*100,y*100,100,100)
-						setText("-")
-						setclickevent("Disp(" + pos +")")
-					})
-				next
-			next
-			
-			
-			//StatusBar
-			status=new qStatusBar(frmMain)
-			{
-				showMessage("Ready",0)
-			}
-			setwindowflags(Qt_dialog)
-			setStatusbar(status)
-			show()
-		}
-		exec()
-	}
-	
+
+
+        app=new qApp
+
+        {
+
+                frmMain=new qMainWindow()
+
+                {
+
+                        setWindowTitle("Hello world")
+
+                        resize(300,320)
+
+                        move(200,200)
+
+                        //buttons
+
+                        pos=0
+
+                        for y=0 to 2
+
+                                for x=0 to 2
+
+                                        pos++
+
+                                        Add(lst,0)
+
+                                        Add(btns,new qPushButton(frmMain)
+
+                                        {
+
+                                                setGeometry(x*100,y*100,100,100)
+
+                                                setText("-")
+
+                                                setclickevent("Disp(" + pos +")")
+
+                                                setstylesheet("font-size:24pt ; font: bold ; color:yellow ; background-color: green")
+
+                                        })
+
+                                next
+
+                        next
+
+                       
+
+                       
+
+                        //StatusBar
+
+                        status=new qStatusBar(frmMain)
+
+                        {
+                                showMessage("Ready",0)
+                        }
+
+                        setwindowflags(Qt_dialog)
+
+                        setStatusbar(status)
+
+                        show()
+
+                }
+
+                exec()
+
+        }
+
+       
+
 func reStart
-	for i=1 to 9
-		lst[i]=0
-		btns[i].setText("-")
-	next
-	
+
+        for i=1 to 9
+
+                lst[i]=0
+
+                btns[i].setText("-")
+
+        next
+
+       
+
 func Disp x
-	if isXTurn=true and lst[x]=0
-		btns[x].setText("X")
-		lst[x]=1
-		isXTurn=false
-	but isXTurn=false and lst[x]=0
-		btns[x].setText("O")
-		lst[x]=2
-		isXTurn=true
-	ok
-	winner = CheckWinner()
-	if winner=1 
-		new qMessagebox(frmMain)
-		{
-			SetWindowTitle("We have a winner!") 
-			SetText("Good job X you won!")
-			show()
-			reStart()
-		}
-	but winner=2
-		new qMessagebox(frmMain)
-		{
-			SetWindowTitle("We have a winner!") 
-			SetText("Good job O you won!")
-			show()
-			reStart()			
-		}
-	but winner=3
-		new qMessagebox(frmMain)
-		{
-			SetWindowTitle("Oh no it's a tie") 
-			SetText("Oh no it's a tie!")
-			show()
-			reStart()
-		}
-	ok
+
+        if isXTurn=true and lst[x]=0
+
+                btns[x].setText("X")
+
+                lst[x]=1
+
+                isXTurn=false
+
+        but isXTurn=false and lst[x]=0
+
+                btns[x].setText("O")
+
+                lst[x]=2
+
+                isXTurn=true
+
+        ok
+
+        winner = CheckWinner()
+		if winner<1 return ok
+        switch winner
+
+        on 1
+
+                new qMessagebox(frmMain)
+
+                {
+
+                        SetWindowTitle("We have a winner!")
+
+                        SetText("Good job X you won!")
+
+                        show()
+
+                }
+
+        on 2
+
+                new qMessagebox(frmMain)
+
+                {
+
+                        SetWindowTitle("We have a winner!")
+
+                        SetText("Good job O you won!")
+
+                        show()
+
+                }
+
+        on 3
+
+                new qMessagebox(frmMain)
+
+                {
+
+                        SetWindowTitle("Oh no it's a tie")
+
+                        SetText("Oh no it's a tie!")
+
+                        show()
+
+                }
+
+        off
+
+        reStart()
+
+
+
+
 
 func CheckWinner
-	//vertical check
-	for v=1 to 9 step 3 
-		if lst[v]!=0 and lst[v+1]!=0 and lst[v+2]!=0
-			if lst[v]=lst[v+1] and lst[v+1]=lst[v+2] 
-				return lst[v]
-			ok			
-		ok
-	next
-	//horzintal
-	for h=1 to 3
-		if lst[h]!=0 and lst[h+3]!=0 and lst[h+6]!=0
-			if lst[h]=lst[h+3] and lst[h+3]=lst[h+6] 
-				return lst[h]
-			ok	
-		ok
-	next
-	//Cross
-	if lst[1]!=0 and lst[5]!=0 and lst[9]!=0
-		if lst[1]=lst[5] and lst[5]=lst[9] return lst[1] ok
-	ok
-	if lst[3]!=0 and lst[5]!=0 and lst[7]!=0
-		if lst[3]=lst[5] and lst[5]=lst[7] return lst[3] ok
-	ok
-	//tie
-	tie=true
-	for i=1 to 9
-		if lst[i]=0 tie=false exit ok
-	next
-	if tie=true return 3 ok
-	
+
+        //vertical check
+
+        for v=1 to 9 step 3
+
+                if lst[v]!=0 and lst[v+1]!=0 and lst[v+2]!=0
+
+                        if lst[v]=lst[v+1] and lst[v+1]=lst[v+2]
+
+                                return lst[v]
+
+                        ok                      
+
+                ok
+
+        next
+
+        //horzintal
+
+        for h=1 to 3
+
+                if lst[h]!=0 and lst[h+3]!=0 and lst[h+6]!=0
+
+                        if lst[h]=lst[h+3] and lst[h+3]=lst[h+6]
+
+                                return lst[h]
+
+                        ok      
+
+                ok
+
+        next
+
+        //Cross
+
+        if lst[1]!=0 and lst[5]!=0 and lst[9]!=0
+
+                if lst[1]=lst[5] and lst[5]=lst[9] return lst[1] ok
+
+        ok
+
+        if lst[3]!=0 and lst[5]!=0 and lst[7]!=0
+
+                if lst[3]=lst[5] and lst[5]=lst[7] return lst[3] ok
+
+        ok
+
+        //tie
+
+        tie=true
+
+        for i=1 to 9
+
+                if lst[i]=0 tie=false exit ok
+
+        next
+
+        if tie=true return 3 ok
+		return 0
