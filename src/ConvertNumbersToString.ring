@@ -9,20 +9,30 @@ millionStr="Million"
 thousandStr="Thousand"
 hundredStr="Hundred"
 andStr="And"
-
+pointStr=" Point "
 
 while true
 	see "enter number to convert:"
 	give theNumber
-	theNumber= number(theNumber)
-	see getName(theNumber) + nl
+	
+	pointSplited=splitString(theNumber,".")
+	fraction=0
+
+	useFr=false
+	if len(pointSplited) >=1 theNumber=pointSplited[1] ok
+	if len(pointSplited) >=2 useFr=true fraction=pointSplited[2] ok
+	pointSplited=null
+
+	see getName(number(theNumber))
+	if useFr=true see pointStr + getName(number(fraction)) ok
+	see nl
 end
 
 func getName num
 rtn=null
 if num=0
     rtn += OneList[floor(num+1)]
-	return rtn
+	return rtn 
 ok
 if num<0
 	return "minus " + getName(fabs(num))
@@ -45,7 +55,7 @@ if len(rtn)>0 rtn += ", " ok
 ok
 
 if num=0 
-	return rtn
+	return rtn + 
 ok
 if len(rtn)>0 rtn += " " + andStr + " " ok
 if(num>=20)
@@ -59,4 +69,7 @@ ok
 if len(rtn)>0 rtn +=  " " ok
 rtn += OneList[num+1]
 return rtn
-	
+
+func splitString str,chr
+	for i in str if strcmp(i,chr)=0 i=nl ok next
+	return str2list(str)
