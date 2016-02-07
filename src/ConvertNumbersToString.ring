@@ -43,7 +43,7 @@ if num>= 1000000
 ok
 if num>=1000
 	if len(rtn)>0 rtn += ", " ok
-
+	see num / 1000
 	rtn += getName(num / 1000)+ " " + thousandStr 
 	num%=1000
 ok
@@ -55,7 +55,7 @@ if len(rtn)>0 rtn += ", " ok
 ok
 
 if num=0 
-	return rtn + 
+	return rtn 
 ok
 if len(rtn)>0 rtn += " " + andStr + " " ok
 if(num>=20)
